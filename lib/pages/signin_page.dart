@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:project1pdp64/services/messenger%20icons.dart';
 
+import '../model/user_model.dart';
 import 'home_page.dart';
 import 'signup_page.dart';
 
@@ -28,13 +29,13 @@ class _SignInState extends State<SignIn> {
     String email=emailController.text.toString().trim();
     String password=passwordController.text.toString().trim();
     var box = Hive.box('data');
-    box.put('email',email);
-    box.put('password',password);
+    var user1=new User(email:email,password:password);
+    box.put('user',user1.toJson());
 
-    String user_email=box.get('email');
-    String user_pw=box.get('password');
-    print(user_email);
-    print(user_pw);
+    var user2=new User.fromJson(box.get('user'));
+
+    print(user2.email);
+    print(user2.password);
 
 
 

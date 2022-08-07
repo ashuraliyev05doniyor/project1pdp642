@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:project1pdp64/model/account_model.dart';
 import 'package:project1pdp64/pages/home_page.dart';
 
 import '../services/messenger icons.dart';
@@ -19,11 +20,9 @@ class _SignUpState extends State<SignUp> {
     Navigator.pushNamed(context, SignIn.id);
   }
 
-  final emailController=TextEditingController();
-  final numberController=TextEditingController();
-  final adressController=TextEditingController();
-
-
+  final emailController = TextEditingController();
+  final numberController = TextEditingController();
+  final adressController = TextEditingController();
 
   _doLogin() {
     String email=emailController.text.toString().trim();
@@ -31,20 +30,15 @@ class _SignUpState extends State<SignUp> {
     String adress=adressController.text.toString().trim();
 
     var box = Hive.box('data');
-    box.put('email',email);
-    box.put('number',number);
-    box.put('adress',adress);
+    var account1=new Account(email:email,number:number,adress: adress);
+    box.put('Account',account1.toJson());
+
+    var account2=new Account.fromJson(box.get('Account'));
 
 
-    String user_email=box.get('email');
-    String user_num=box.get('number');
-    String user_adress =box.get('adress');
-
-    print(user_email);
-    print(user_num);
-    print(user_adress);
-
-
+    print(account2.email);
+    print(account2.number);
+    print(account2.adress);
 
     Navigator.pushReplacementNamed(context, HomePage.id);
   }
